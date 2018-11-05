@@ -54,6 +54,7 @@ from .appletrailers import (
 from .archiveorg import ArchiveOrgIE
 from .arkena import ArkenaIE
 from .ard import (
+    ARDBetaMediathekIE,
     ARDIE,
     ARDMediathekIE,
 )
@@ -87,11 +88,7 @@ from .awaan import (
     AWAANLiveIE,
     AWAANSeasonIE,
 )
-from .azmedien import (
-    AZMedienIE,
-    AZMedienPlaylistIE,
-    AZMedienShowPlaylistIE,
-)
+from .azmedien import AZMedienIE
 from .baidu import BaiduVideoIE
 from .bambuser import BambuserIE, BambuserChannelIE
 from .bandcamp import BandcampIE, BandcampAlbumIE, BandcampWeeklyIE
@@ -208,7 +205,10 @@ from .cloudy import CloudyIE
 from .clubic import ClubicIE
 from .clyp import ClypIE
 from .cmt import CMTIE
-from .cnbc import CNBCIE
+from .cnbc import (
+    CNBCIE,
+    CNBCVideoIE,
+)
 from .cnn import (
     CNNIE,
     CNNBlogsIE,
@@ -539,6 +539,7 @@ from .la7 import LA7IE
 from .laola1tv import (
     Laola1TvEmbedIE,
     Laola1TvIE,
+    EHFTVIE,
     ITTFIE,
 )
 from .lci import LCIIE
@@ -568,6 +569,10 @@ from .limelight import (
     LimelightChannelListIE,
 )
 from .line import LineTVIE
+from .linkedin import (
+    LinkedInLearningIE,
+    LinkedInLearningCourseIE,
+)
 from .litv import LiTVIE
 from .liveleak import (
     LiveLeakIE,
@@ -1042,7 +1047,7 @@ from .spike import (
 )
 from .stitcher import StitcherIE
 from .sport5 import Sport5IE
-from .sportbox import SportBoxEmbedIE
+from .sportbox import SportBoxIE
 from .sportdeutschland import SportDeutschlandIE
 from .springboardplatform import SpringboardPlatformIE
 from .sprout import SproutIE
@@ -1085,6 +1090,7 @@ from .teachingchannel import TeachingChannelIE
 from .teamcoco import TeamcocoIE
 from .techtalks import TechTalksIE
 from .ted import TEDIE
+from .tele5 import Tele5IE
 from .tele13 import Tele13IE
 from .telebruxelles import TeleBruxellesIE
 from .telecinco import TelecincoIE
@@ -1151,7 +1157,6 @@ from .tv2 import (
     TV2ArticleIE,
 )
 from .tv2hu import TV2HuIE
-from .tv3 import TV3IE
 from .tv4 import TV4IE
 from .tv5mondeplus import TV5MondePlusIE
 from .tva import TVAIE
@@ -1188,6 +1193,7 @@ from .tweakers import TweakersIE
 from .twentyfourvideo import TwentyFourVideoIE
 from .twentymin import TwentyMinutenIE
 from .twentythreevideo import TwentyThreeVideoIE
+from .twitcasting import TwitCastingIE
 from .twitch import (
     TwitchVideoIE,
     TwitchChapterIE,
@@ -1453,8 +1459,20 @@ from .youtube import (
 from .zapiks import ZapiksIE
 from .zaq1 import Zaq1IE
 from .zattoo import (
+    BBVTVIE,
+    EinsUndEinsTVIE,
+    EWETVIE,
+    GlattvisionTVIE,
+    MNetTVIE,
+    MyVisionTVIE,
+    NetPlusIE,
+    OsnatelTVIE,
+    QuantumTVIE,
     QuicklineIE,
     QuicklineLiveIE,
+    SAKTVIE,
+    VTXTVIE,
+    WalyTVIE,
     ZattooIE,
     ZattooLiveIE,
 )

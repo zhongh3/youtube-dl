@@ -47,7 +47,7 @@ from .nbc import NBCSportsVPlayerIE
 from .ooyala import OoyalaIE
 from .rutv import RUTVIE
 from .tvc import TVCIE
-from .sportbox import SportBoxEmbedIE
+from .sportbox import SportBoxIE
 from .smotri import SmotriIE
 from .myvi import MyviIE
 from .condenast import CondeNastIE
@@ -2636,9 +2636,9 @@ class GenericIE(InfoExtractor):
             return self.url_result(tvc_url, 'TVC')
 
         # Look for embedded SportBox player
-        sportbox_urls = SportBoxEmbedIE._extract_urls(webpage)
+        sportbox_urls = SportBoxIE._extract_urls(webpage)
         if sportbox_urls:
-            return self.playlist_from_matches(sportbox_urls, video_id, video_title, ie='SportBoxEmbed')
+            return self.playlist_from_matches(sportbox_urls, video_id, video_title, ie=SportBoxIE.ie_key())
 
         # Look for embedded XHamster player
         xhamster_urls = XHamsterEmbedIE._extract_urls(webpage)
@@ -3023,7 +3023,7 @@ class GenericIE(InfoExtractor):
                 wapo_urls, video_id, video_title, ie=WashingtonPostIE.ie_key())
 
         # Look for Mediaset embeds
-        mediaset_urls = MediasetIE._extract_urls(webpage)
+        mediaset_urls = MediasetIE._extract_urls(self, webpage)
         if mediaset_urls:
             return self.playlist_from_matches(
                 mediaset_urls, video_id, video_title, ie=MediasetIE.ie_key())
@@ -3112,7 +3112,7 @@ class GenericIE(InfoExtractor):
             return self.playlist_from_matches(
                 foxnews_urls, video_id, video_title, ie=FoxNewsIE.ie_key())
 
-        sharevideos_urls = [mobj.group('url') for mobj in re.finditer(
+        sharevideos_urls = [sharevideos_mobj.group('url') for sharevideos_mobj in re.finditer(
             r'<iframe[^>]+?\bsrc\s*=\s*(["\'])(?P<url>(?:https?:)?//embed\.share-videos\.se/auto/embed/\d+\?.*?\buid=\d+.*?)\1',
             webpage)]
         if sharevideos_urls:
@@ -3150,9 +3150,13 @@ class GenericIE(InfoExtractor):
         jwplayer_data = self._find_jwplayer_data(
             webpage, video_id, transform_source=js_to_json)
         if jwplayer_data:
-            info = self._parse_jwplayer_data(
-                jwplayer_data, video_id, require_title=False, base_url=url)
-            return merge_dicts(info, info_dict)
+            try:
+                info = self._parse_jwplayer_data(
+                    jwplayer_data, video_id, require_title=False, base_url=url)
+                return merge_dicts(info, info_dict)
+            except ExtractorError:
+                # See https://github.com/rg3/youtube-dl/pull/16735
+                pass
 
         # Video.js embed
         mobj = re.search(
