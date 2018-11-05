@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 import hashlib
 import re
+from ..zh import parser_b
+
 
 from .common import InfoExtractor
 from ..compat import (
@@ -24,6 +26,8 @@ from ..utils import (
 
 class BiliBiliIE(InfoExtractor):
     _VALID_URL = r'https?://(?:www\.|bangumi\.|)bilibili\.(?:tv|com)/(?:video/av|anime/(?P<anime_id>\d+)/play#)(?P<id>\d+)'
+    # _VALID_URL = r'https?://(?:www\.|bangumi\.|)bilibili\.(?:tv|com)/' \
+    #     r'(?:video/av|anime/(?P<anime_id>\d+)/play#)(?P<id>\d+)\?p=(?P<part_id>\d+)'
 
     _TESTS = [{
         'url': 'http://www.bilibili.tv/video/av1074402/',
@@ -109,8 +113,16 @@ class BiliBiliIE(InfoExtractor):
 
         mobj = re.match(self._VALID_URL, url)
         video_id = mobj.group('id')
+        # video_id = "av4082055/?p=44"
         anime_id = mobj.group('anime_id')
         webpage = self._download_webpage(url, video_id)
+        # print(webpage)
+
+        # Save the webpage as an HTML file
+        # response = "./webpage.html"
+        # fp = open(response, "w")
+        # fp.write(webpage)
+        # fp.close()
 
         if 'anime/' not in url:
             cid = self._search_regex(
@@ -138,6 +150,10 @@ class BiliBiliIE(InfoExtractor):
             if 'result' not in js:
                 self._report_error(js)
             cid = js['result']['cid']
+
+        # get cid and title by page number
+        page_num = 153
+        cid, title = parser_b.get_cid_and_title(webpage, page_num)
 
         headers = {
             'Referer': url
@@ -190,10 +206,12 @@ class BiliBiliIE(InfoExtractor):
                 })
             break
 
-        title = self._html_search_regex(
-            ('<h1[^>]+\btitle=(["\'])(?P<title>(?:(?!\1).)+)\1',
-             '(?s)<h1[^>]*>(?P<title>.+?)</h1>'), webpage, 'title',
-            group='title')
+        # Use page title instead
+
+        # title = self._html_search_regex(
+        #     ('<h1[^>]+\btitle=(["\'])(?P<title>(?:(?!\1).)+)\1',
+        #      '(?s)<h1[^>]*>(?P<title>.+?)</h1>'), webpage, 'title',
+        #     group='title')
         description = self._html_search_meta('description', webpage)
         timestamp = unified_timestamp(self._html_search_regex(
             r'<time[^>]+datetime="([^"]+)"', webpage, 'upload time',
