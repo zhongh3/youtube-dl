@@ -7,6 +7,12 @@ def process_input(webpage):
 
     data = webpage.strip()
 
+    # Save the webpage as an HTML file
+    file = "./webpage.html"
+    fp = open(file, 'w', encoding='utf-8')
+    fp.write(webpage)
+    fp.close()
+
     start = data.find("<script>window.__INITIAL_STATE__=")
     if start != -1:
         start2 = data.find('"pages":[', start) + len('"pages":[')

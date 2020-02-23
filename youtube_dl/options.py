@@ -421,6 +421,10 @@ def parseOpts(overrideArguments=None):
             'If a merge is required (e.g. bestvideo+bestaudio), '
             'output to given container format. One of mkv, mp4, ogg, webm, flv. '
             'Ignored if no merge is required'))
+    video_format.add_option(
+        '--bilibili-video-num',
+        action='store', dest='bilibili_video_num', metavar='NUMBER', default=1, type=int,
+        help='Video number on BiliBili playlist, e.g. P7 --> 7')
 
     subtitles = optparse.OptionGroup(parser, 'Subtitle Options')
     subtitles.add_option(

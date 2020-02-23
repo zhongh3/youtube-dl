@@ -97,8 +97,8 @@ class BiliBiliIE(InfoExtractor):
         }]
     }]
 
-    _APP_KEY = '84956560bc028eb7'
-    _BILIBILI_KEY = '94aba54af9065f71de72f5508f1cd42e'
+    _APP_KEY = 'iVGUTjsxvpLeuDCf'
+    _BILIBILI_KEY = 'aHRmhWMLkdeMuILqORnYZocwMBpMEOdt'
 
     def _report_error(self, result):
         if 'message' in result:
@@ -108,7 +108,7 @@ class BiliBiliIE(InfoExtractor):
         else:
             raise ExtractorError('Can\'t extract Bangumi episode ID')
 
-    def _real_extract(self, url):
+    def _real_extract(self, url, page_num=None):
         url, smuggled_data = unsmuggle_url(url, {})
 
         mobj = re.match(self._VALID_URL, url)
@@ -116,13 +116,7 @@ class BiliBiliIE(InfoExtractor):
         # video_id = "av4082055/?p=44"
         anime_id = mobj.group('anime_id')
         webpage = self._download_webpage(url, video_id)
-        # print(webpage)
-
-        # Save the webpage as an HTML file
-        # response = "./webpage.html"
-        # fp = open(response, "w")
-        # fp.write(webpage)
-        # fp.close()
+        print(webpage)
 
         if 'anime/' not in url:
             cid = self._search_regex(
@@ -152,8 +146,10 @@ class BiliBiliIE(InfoExtractor):
             cid = js['result']['cid']
 
         # get cid and title by page number
-        page_num = 153
+        # page_num = 7
         cid, title = parser_b.get_cid_and_title(webpage, page_num)
+        # cid = "34488444" # 34488444
+        # title = "2013 国立 DISC2"
 
         headers = {
             'Referer': url

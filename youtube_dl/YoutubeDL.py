@@ -789,7 +789,7 @@ class YoutubeDL(object):
                                     'and will probably not work.')
 
             try:
-                ie_result = ie.extract(url)
+                ie_result = ie.extract(url, self.params.get('bilibili_video_num'))
                 if ie_result is None:  # Finished already (backwards compatibility; listformats and friends should be moved here)
                     break
                 if isinstance(ie_result, list):
